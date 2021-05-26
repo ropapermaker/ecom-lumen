@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Http;
 
-class SellerLoginRequest extends FormRequest{
+class ChangePasswordRequest extends FormRequest{
 
     public function authorize(){
         return true;
@@ -15,18 +15,17 @@ class SellerLoginRequest extends FormRequest{
 
     public function rules(){
         return [
-            'email'=>'required|email',
-            'password'=>'required|min:8'
+            'password'=>'required|min:8',
+            'password_new'=>'required|min:8'
         ];
     }
 
     public function messages(){
         return [
-            'email.required'=>'Email field is required',
-            'email.email'=>'Please enter a valid email',
-            'email.unique'=>'This email adress has already been taken',
             'password.required'=>'Password field is required',
-            'password.min'=>'Password must be 8 characters long or longer'
+            'password_new.required'=>'New password field is required',
+            'password.min'=>'Password must be 8 characters long or longer',
+            'password_new.min'=>'Password must be 8 characters long or longer'
         ];
     }
 

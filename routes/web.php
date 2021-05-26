@@ -17,12 +17,15 @@
 //     return $router->app->version();
 // });
 
+
 $router->group(['prefix'=>'user'], function() use ($router){
     $router->post('register', 'UserController@register');
     $router->post('login', 'UserController@login');
     $router->post('view-profile', 'UserController@viewProfile');
     $router->get('logout', 'UserController@logout');
     $router->post('refresh-token', 'UserController@refreshToken');
+    $router->post('change-password', 'UserController@changePassword');
+    
 });
 
 $router->group(['prefix'=>'admin'], function() use ($router){
@@ -39,4 +42,10 @@ $router->group(['prefix'=>'seller'], function() use ($router){
     $router->post('view-profile', 'SellerController@viewProfile');
     $router->get('logout', 'SellerController@logout');
     $router->post('refresh-token', 'SellerController@refreshToken');
+});
+
+$router->group(['prefix'=>'products'], function() use ($router){
+    $router->get('all', 'ProductController@getAllProducts');
+    $router->get('best-sellers', 'ProductController@getBestSellers');
+    $router->get('testquery', 'ProductController@testquery');
 });

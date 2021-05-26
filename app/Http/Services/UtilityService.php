@@ -14,6 +14,14 @@ class UtilityService{
         ], 200));
     }
 
+    public function is200ResponseWithData($responseMessage, $data){
+        throw new HttpResponseException(response()->json([
+            'success'=>true,
+            'message'=>$responseMessage,
+            'data'=>$data
+        ], 200));
+    }
+
     public function is422Response($responseMessage){
         throw new HttpResponseException(response()->json([
             'success'=>false,

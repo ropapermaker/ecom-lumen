@@ -23,9 +23,12 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-$app->withFacades();
+$app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
 
 $app->withEloquent();
+
+$app->withFacades();
+
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +63,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('database');
 
 /*
 |--------------------------------------------------------------------------

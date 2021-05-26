@@ -35,7 +35,7 @@ class AdminLoginRequest extends FormRequest{
             'success'=>false,
             'error'=>$validator->errors(),
             'message'=>'One or more fields are required or not entered properly'
-        ]));
+        ], 422));
     }
 
 
