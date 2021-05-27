@@ -4,26 +4,53 @@ namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Product extends Eloquent 
+class Product extends Eloquent
 {
     protected $connection = 'mongodb';
     protected $collection = 'products';
     protected $primaryKey = '_id';
 
-    public function getAllProducts(){
+    public function getAllProducts()
+    {
         return Product::get();
     }
 
-    public function getBestSellers(){
-        // return Product
-        // ::where('nb_sold', '>', '4.7')
-        // ->get();
+    public function getBestSellers()
+    {
+        // products with highest number sold
         return Product
-        ::where('nb_sold', '>', '1000')
-        ->get();
+            ::orderBy('nb_sold', 'desc')
+            ->take(3)
+            ->get();
     }
 
-    public function testquery(){
+    public function getBestDeals()
+    {
+        return Product
+            ::where('nb_sold', '>', 300)
+            ->orderBy('review', 'desc')
+            ->take(3)
+            ->get();
+    }
+
+    public function getNewProducts()
+    {
+        return Product
+            ::where('nb_sold', '<', 50)
+            ->orderBy('nb_sold', 'desc')
+            ->take(4)
+            ->get();
+    }
+
+    public function getCustomerReviews()
+    {
+        return Product
+            ::take(1)
+            ->get(['reviews']);
+    }
+
+    public function testquery()
+    {
         // return Product
         // ::where('nb_sold', '>', 1000)
         // ->get();
@@ -36,7 +63,7 @@ class Product extends Eloquent
         // ::max('price');
 
         return Product
-        ::get(['reviews']);
+            ::take(1)
+            ->get(['reviews']);
     }
-
 }

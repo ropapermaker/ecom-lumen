@@ -48,4 +48,8 @@ class UtilityService{
     public function hash_password($password){
         return Hash::make($password);
     }
+
+    public function hash_check($password_form, $password_old){
+        return Hash::check($password_form, $password_old);
+    }
 }

@@ -15,6 +15,7 @@ class ChangePasswordRequest extends FormRequest{
 
     public function rules(){
         return [
+            'password_old'=>'required|min:8',
             'password'=>'required|min:8',
             'password_new'=>'required|min:8'
         ];
@@ -22,6 +23,7 @@ class ChangePasswordRequest extends FormRequest{
 
     public function messages(){
         return [
+            'password_old.required'=>'Password field is required',
             'password.required'=>'Password field is required',
             'password_new.required'=>'New password field is required',
             'password.min'=>'Password must be 8 characters long or longer',

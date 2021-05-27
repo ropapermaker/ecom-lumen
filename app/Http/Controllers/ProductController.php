@@ -21,4 +21,16 @@ class ProductController extends Controller
     public function testquery(Product $products){
         return $products->testquery();
     }
+
+    public function getBestDeals(Product $products){
+        return $products->getBestDeals();
+    }
+
+    public function getNewProducts(Product $products){
+        return $products->getNewProducts();
+    }
+
+    public function getCustomerReviews(Product $products){
+        return $products->getCustomerReviews();
+    }
 }
