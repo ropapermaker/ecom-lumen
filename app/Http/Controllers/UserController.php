@@ -97,12 +97,15 @@ class UserController extends Controller
 
         $responseMessage = "Password changed successfully";
 
-        if(Auth::guard('user')->user() == null) {
-            return $uService->is401Response('Unauthorized');
-        }
+        // if(Auth::guard('user')->user() == null) {
+        //     return $uService->is401Response('Unauthorized');
+        // }
 
-        if ($uService->hash_check($request->password_old, Auth::guard('user')->user('password'))) {
-            User::where('email', Auth::guard('user')->user('email'))
+        $data = Auth::guard('user')->user();
+        return $data;
+
+        if ($uService->hash_check($request->password_old, $data->password)) {
+            User::where('email', $data->email)
                 ->update(['password' => $uService->hash_password($request->password_new)]);
             
             return $uService->is200Response($responseMessage);

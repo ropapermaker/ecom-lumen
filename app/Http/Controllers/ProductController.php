@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+// use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\FuncCall;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -18,8 +20,8 @@ class ProductController extends Controller
         return $products->getBestSellers();
     }
 
-    public function testquery(Product $products){
-        return $products->testquery();
+    public function testquery(Product $products, Request $request){
+        return $products->testquery($request);
     }
 
     public function getBestDeals(Product $products){
@@ -32,5 +34,13 @@ class ProductController extends Controller
 
     public function getCustomerReviews(Product $products){
         return $products->getCustomerReviews();
+    }
+
+    public function getCategories(Product $products){
+        return $products->getCategories();
+    }
+
+    public function getSearch(Product $products, Request $request){
+        return $products->getSearch($request);
     }
 }

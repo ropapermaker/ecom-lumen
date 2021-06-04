@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Illuminate\Http\Request;
 
 class Product extends Eloquent
 {
@@ -49,21 +50,79 @@ class Product extends Eloquent
             ->get(['reviews']);
     }
 
-    public function testquery()
+    public function getCategories()
     {
-        // return Product
-        // ::where('nb_sold', '>', 1000)
-        // ->get();
-
-        // return Product
-        // ::orderBy('price', 'desc')
-        // ->get();
-
-        // return Product
-        // ::max('price');
-
         return Product
-            ::take(1)
-            ->get(['reviews']);
+            ::distinct()
+            ->get(['category']);
+    }
+
+    public function getSearch(Request $request)
+    {
+        $search = $request->search;
+        $category = $request->category;
+        $brand = $request->brand;
+        $rating = (float) $request->rating;
+        $priceMin = (float) $request->priceMin;
+        $priceMax  = (float) $request->priceMax;
+
+        // if search is null
+        if (!$search){
+            $search = '%';
+        }
+        else{
+            $search = '%' . $search . '%';
+        }
+
+        //if category is null
+        if (!$category){
+            $category = '%';
+        }
+        else{
+            $category = '%' . $category . '%';
+        }
+
+        //if rating is null
+        if (!$rating){
+            $rating = 0;
+        }
+
+        //if priceMin priceMax are null
+        if (!$priceMin){
+            $priceMin = 0;
+        }
+
+        //if rating is null
+        if (!$priceMax){
+            $priceMax = 9999999999;
+        }
+ 
+        //if brand is null
+        if (!$brand){
+            $product = Product
+            ::where('title', 'like', $search)
+            ->where('category', 'like', $category)
+            ->where('review', '>=', $rating)
+            ->where('price', '>=', $priceMin)
+            ->where('price', '<=', $priceMax)
+            ->get();
+        }
+        else{
+            $product = Product
+            ::where('title', 'like', $search)
+            ->where('category', 'like', $category)
+            ->where('specifications.Brand Name:', 'like', $brand)
+            ->where('review', '>=', $rating)
+            ->where('price', '>=', $priceMin)
+            ->where('price', '<=', $priceMax)
+            ->get();
+        }
+        // returns product with specified parameters, if they are null they are not searched
+        return $product;
+    }
+
+    public function testquery(Request $request)
+    {
+
     }
 }

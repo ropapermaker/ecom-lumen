@@ -51,4 +51,6 @@ $router->group(['prefix'=>'products'], function() use ($router){
     $router->get('new-products', 'ProductController@getNewProducts');
     $router->get('customer-reviews', 'ProductController@getCustomerReviews');
     $router->get('testquery', 'ProductController@testquery');
+    $router->get('categories', 'ProductController@getCategories');
+    $router->get('search', 'ProductController@getSearch');
 });
