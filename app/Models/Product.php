@@ -71,6 +71,9 @@ class Product extends Eloquent
             $search = '%';
         }
         else{
+            //all products which contain the words in the search form
+            $searchArray = explode(' ', $search);
+            $search = join('%', $searchArray);
             $search = '%' . $search . '%';
         }
 
@@ -105,7 +108,7 @@ class Product extends Eloquent
             ->where('review', '>=', $rating)
             ->where('price', '>=', $priceMin)
             ->where('price', '<=', $priceMax)
-            ->get();
+            ->paginate(10);
         }
         else{
             $product = Product
@@ -115,10 +118,18 @@ class Product extends Eloquent
             ->where('review', '>=', $rating)
             ->where('price', '>=', $priceMin)
             ->where('price', '<=', $priceMax)
-            ->get();
+            ->paginate(10);
         }
         // returns product with specified parameters, if they are null they are not searched
         return $product;
+    }
+
+    public function getProductById(Request $request){
+        $id = $request->id;
+
+        return Product
+                ::where('_id', $id)
+                ->get();
     }
 
     public function testquery(Request $request)

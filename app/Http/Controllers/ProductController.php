@@ -43,4 +43,8 @@ class ProductController extends Controller
     public function getSearch(Product $products, Request $request){
         return $products->getSearch($request);
     }
+
+    public function getProductById(Product $products, Request $request){
+        return $products->getProductById($request);
+    }
 }
