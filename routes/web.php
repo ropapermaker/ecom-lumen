@@ -34,6 +34,7 @@ $router->group(['prefix'=>'admin'], function() use ($router){
     $router->post('view-profile', 'AdminController@viewProfile');
     $router->get('logout', 'AdminController@logout');
     $router->post('refresh-token', 'AdminController@refreshToken');
+    $router->post('change-password', 'AdminController@changePassword');
 });
 
 $router->group(['prefix'=>'seller'], function() use ($router){
@@ -42,6 +43,7 @@ $router->group(['prefix'=>'seller'], function() use ($router){
     $router->post('view-profile', 'SellerController@viewProfile');
     $router->get('logout', 'SellerController@logout');
     $router->post('refresh-token', 'SellerController@refreshToken');
+    $router->post('change-password', 'SellerController@changePassword');
 });
 
 $router->group(['prefix'=>'products'], function() use ($router){
