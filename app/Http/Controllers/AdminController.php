@@ -9,6 +9,7 @@ use App\Http\Requests\AdminRegisterRequest;
 use App\Http\Requests\AdminLoginRequest;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ChangePasswordRequest;
 
 class AdminController extends Controller
 {
@@ -63,5 +64,22 @@ class AdminController extends Controller
             return $uService->is422Response($responseMessage);
         }
         return $uService->is200Response($responseMessage);
+    }
+
+    public function changePassword(ChangePasswordRequest $request, UtilityService $uService)
+    {
+        $responseMessage = "Password changed successfully";
+
+        $data = Auth::guard('admin')->user();
+
+        if ($uService->hash_check($request->password_old, $data->password)) {
+            Admin::where('email', $data->email)
+                ->update(['password' => $uService->hash_password($request->password_new)]);
+            
+            return $uService->is200Response($responseMessage);
+        }
+
+        $responseMessage = "Passwords don't match";
+        return $uService->is422Response($responseMessage);
     }
 }

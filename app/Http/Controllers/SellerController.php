@@ -9,6 +9,7 @@ use App\Http\Requests\SellerRegisterRequest;
 use App\Http\Requests\SellerLoginRequest;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ChangePasswordRequest;
 
 class SellerController extends Controller
 {
@@ -62,5 +63,22 @@ class SellerController extends Controller
             return $uService->is422Response($responseMessage);
         }
         return $uService->is200Response($responseMessage);
+    }
+
+    public function changePassword(ChangePasswordRequest $request, UtilityService $uService)
+    {
+        $responseMessage = "Password changed successfully";
+
+        $data = Auth::guard('seller')->user();
+
+        if ($uService->hash_check($request->password_old, $data->password)) {
+            Seller::where('email', $data->email)
+                ->update(['password' => $uService->hash_password($request->password_new)]);
+            
+            return $uService->is200Response($responseMessage);
+        }
+
+        $responseMessage = "Passwords don't match";
+        return $uService->is422Response($responseMessage);
     }
 }

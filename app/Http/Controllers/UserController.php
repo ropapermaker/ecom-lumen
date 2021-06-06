@@ -68,41 +68,11 @@ class UserController extends Controller
         return $uService->is200Response($responseMessage);
     }
 
-    public function changePassword(ChangePasswordRequest  $request, UtilityService $uService)
+    public function changePassword(ChangePasswordRequest $request, UtilityService $uService)
     {
-        // $password_hash = $uService->hash_password($request->password);
-        // $password_new_hash = $uService->hash_password($request->password_new);
-
-        // $user = Auth::guard('user')->user();
-        // $responseMessage = "Password changed successfully";
-
-        // if($user == null) {
-        //     return $uService->is401Response('Unauthorized');
-        // }
-
-        // if($password_hash == $user->password){
-        //     $user->password = $password_new_hash;
-        //     $user->save();
-        // }
-        // else{
-        //     $responseMessage = "Passwords don't match";
-        //     return $uService->is422Response($responseMessage);
-        // }
-
-        // return $uService->is200Response($responseMessage);
-
-        // $user = Auth::guard('user')->user();
-
-        // $data = User::where('email', Auth::guard('user')->user('email'));
-
         $responseMessage = "Password changed successfully";
 
-        // if(Auth::guard('user')->user() == null) {
-        //     return $uService->is401Response('Unauthorized');
-        // }
-
         $data = Auth::guard('user')->user();
-        return $data;
 
         if ($uService->hash_check($request->password_old, $data->password)) {
             User::where('email', $data->email)
